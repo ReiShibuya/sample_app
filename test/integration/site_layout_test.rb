@@ -2,6 +2,10 @@ require 'test_helper'
 
 class SiteLayoutTest < ActionDispatch::IntegrationTest
 
+  def setup
+    @user = users(:michael)
+  end
+
   test "layout links" do
     get root_path
     assert_template 'static_pages/home'
@@ -13,5 +17,10 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     # TODO: なぜか↓のコンタクトページのテストでエラーが発生している
     # get contact_path
     # assert_select "title", full_title("Contact")
+    # 演習10.3.1.1
+    log_in_as(@user)
+    get root_path
+    assert_select "a[href=?]", users_path
+    # 演習10.3.1.1 end
   end
 end
